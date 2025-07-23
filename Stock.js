@@ -14,7 +14,10 @@ function MenuPrincipal(){
     3. Atualizar Estoque
     4. Remover Produtos
     5. Verificar Estoque Minimo
-    6. sair
+    6. Valor Total do Estoque
+    7. Buscar Produto
+    8. Adicionar Categoria e Filtrar Por Ela
+    9. Sair
 `)
 
 rl.question('\n Escolha uma opção acima:\n', (input1)=>{
@@ -36,6 +39,9 @@ switch (menu){
         VerificarEstoque()
         break
     case 6:
+        ValorTotalEstoque()
+        break
+    case 7:
         process.exit()
         break
     default:
@@ -158,4 +164,30 @@ function VerificarEstoque(){
     console.log(`No total temos ${baixoEstoque} produtos com quantidade baixa!\n Aperte ENTER para voltar ao menu...`);
     rl.question('', MenuPrincipal);
 
+}
+
+function ValorTotalEstoque(){
+    if(estoque.length === 0){
+        console.log('nenhum item cadastrado! \nPrecione enter para voltar')
+        rl.question('', MenuPrincipal)
+    }
+
+    console.log('estoque: ')
+    estoque.forEach((produto, index) => {
+        console.log(`${index + 1}. \nNome: ${estoque[index].Nome} \nQuantidade: ${estoque[index].Quantidade} \nPreço: ${estoque[index].Preco}\n`)
+    })
+
+    rl.question('digite o número do estoque que você quer ver o valor total: ', (input) => {
+        let i = parseInt(input, 10) - 1
+        if(i >= 0 && i < estoque.length){
+            console.log(`Valor total: ${estoque[i].Quantidade * estoque[i].Preco}`) 
+            console.log('precione enter para voltar')
+            rl.question('', MenuPrincipal)
+
+        }else{
+            console.log('posição inválida!\n')
+            console.log('precione enter para voltar')
+            rl.question('', MenuPrincipal)
+        }
+    })  
 }
