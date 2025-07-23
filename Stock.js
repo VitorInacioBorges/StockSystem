@@ -2,7 +2,7 @@ const readline = require('readline')
 const rl = readline.createInterface({
     input: process.stdin, output: process.stdout})
 
-let produto = []
+let estoque = []
 
 MenuPrincipal();
 
@@ -39,11 +39,67 @@ switch (menu){
         process.exit()
         break
     default:
-        console.log("Digite um numero Valido...")
+        console.log("Digite um número Valido...")
         MenuPrincipal()
         break
         }
     })
+
+}
+
+function ListarProduto() {
+    if(estoque.length === 0){
+        console.log('nenhum item cadastrado! \nprecione enter para voltar')
+        return rl.question('', MenuPrincipal)
+    }else{
+        console.log('estoque: ')
+        estoque.forEach((listar, index) => {
+            console.log(`${index + 1}. \nNome: ${listar.nome} \nQuantidade: ${listar.quantidade} \nPreço: ${listar.preco.toFixed(2)}\n`)
+        })
+    }
+    console.log('precione enter para voltar')
+    return rl.question('', MenuPrincipal)
+}
+
+function AtualizarEstoque(){
+    if(estoque.length === 0){
+        console.log('nenhum item cadastrado! \nPrecione enter para voltar')
+        rl.question('', MenuPrincipal)
+    }
+
+    console.log('Lista de estoque: ')
+    estoque.forEach((produto, index) => {
+        console.log(`${index + 1}. \nNome: ${produto.nome} \nCriador: ${produto.quantidade} \nvalor: R$${produto.valor.toFixed(2)}\n`)
+    })
+
+    rl.question('digite o número do estoque que você quer editar: ', (input) => {
+        let i = parseInt(input, 10) - 1
+        if(i >= 0 && i < estoque.length){
+            rl.question('digite a nova quantidade: ', (quantidade) => {
+                if(quantiadde < 0 || isNaN(quantidade)){
+                    console.log('valor inválido!')
+                    return quantidade()
+                }
+
+                estoque[i] = {
+                    quantidade
+                }
+                       
+                console.log('Estoque editado com sucesso! \nDeseja editar outro? (s/n)')
+                rl.question('', (resposta) =>{
+                    resposta.toLowerCase() === 's'
+                    ? AtualizarEstoque()
+                    : MenuPrincipal()
+                })
+            })
+        }else{
+            console.log('posição inválida!\n')
+            console.log('precione enter para voltar')
+            rl.question('', MenuPrincipal)
+        }
+    })  
+}
+
 }
 
 function CadastrarProduto(){
