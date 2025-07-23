@@ -4,7 +4,7 @@ const rl = readline.createInterface({
 
 let estoque = []
 
-MenuPrincipal()
+MenuPrincipal();
 
 function MenuPrincipal(){
     console.log(`
