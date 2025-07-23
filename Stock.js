@@ -51,7 +51,11 @@ console.log('==== Cadastrar Produto ====\n')
 
 rl.question('\nDigite o nome do produto:\n', (input2) => {
         rl.question('\nDigite a quantidade:\n', (input3) => {
-                    rl.question('\nDigite o Preço:\n', (input4) => {
+            if(isNaN(input3) || input3 < 0){console.log('Digite um numero...') 
+                CadastrarProduto()}
+                    rl.question('\nDigite o Preço:\n', (input4) =>{
+                        if(isNaN(input4) || input4 < 0){console.log('Digite um numero...') 
+                            CadastrarProduto()}
                         produto.push({
                             Nome:input2,
                             Quantidade: parseFloat(input3),
