@@ -53,8 +53,8 @@ function ListarProduto() {
         return rl.question('', MenuPrincipal)
     }else{
         console.log('estoque: ')
-        estoque.forEach((listar, index) => {
-            console.log(`${index + 1}. \nNome: ${listar.nome} \nQuantidade: ${listar.quantidade} \nPreço: ${listar.preco.toFixed(2)}\n`)
+        estoque.forEach((produto, index) => {
+            console.log(`${index + 1}. \nNome: ${estoque[index].Nome} \nQuantidade: ${estoque[index].Quantidade} \nPreço: ${estoque[index].Preco}\n`)
         })
     }
     console.log('precione enter para voltar')
@@ -67,23 +67,21 @@ function AtualizarEstoque(){
         rl.question('', MenuPrincipal)
     }
 
-    console.log('Lista de estoque: ')
+    console.log('estoque: ')
     estoque.forEach((produto, index) => {
-        console.log(`${index + 1}. \nNome: ${produto.nome} \nCriador: ${produto.quantidade} \nvalor: R$${produto.valor.toFixed(2)}\n`)
+        console.log(`${index + 1}. \nNome: ${estoque[index].Nome} \nQuantidade: ${estoque[index].Quantidade} \nPreço: ${estoque[index].Preco}\n`)
     })
 
     rl.question('digite o número do estoque que você quer editar: ', (input) => {
         let i = parseInt(input, 10) - 1
         if(i >= 0 && i < estoque.length){
             rl.question('digite a nova quantidade: ', (quantidade) => {
-                if(quantiadde < 0 || isNaN(quantidade)){
+                if(quantidade < 0 || isNaN(quantidade)){
                     console.log('valor inválido!')
-                    return quantidade()
+                    return AtualizarEstoque()
                 }
 
-                estoque[i] = {
-                    quantidade
-                }
+                estoque[i].Quantidade = parseInt(quantidade);
                        
                 console.log('Estoque editado com sucesso! \nDeseja editar outro? (s/n)')
                 rl.question('', (resposta) =>{
@@ -100,30 +98,27 @@ function AtualizarEstoque(){
     })  
 }
 
-}
-
 function CadastrarProduto(){
 console.log('==== Cadastrar Produto ====\n')
 
-rl.question('\nDigite o nome do produto:\n', (input2) => {
-        rl.question('\nDigite a quantidade:\n', (input3) => {
-            if(isNaN(input3) || input3 < 0){console.log('Digite um numero...') 
+rl.question('\nDigite o nome do produto:\n', (Nome) => {
+        rl.question('\nDigite a quantidade:\n', (Quantidade) => {
+            if(isNaN(Quantidade) || Quantidade < 0){console.log('Digite um numero...') 
                 CadastrarProduto()}
-                    rl.question('\nDigite o Preço:\n', (input4) =>{
-                        if(isNaN(input4) || input4 < 0){console.log('Digite um numero...') 
+                    rl.question('\nDigite o Preço:\n', (Preco) =>{
+                        if(isNaN(Preco) || Preco < 0){console.log('Digite um numero...') 
                             CadastrarProduto()}
                         estoque.push({
-                            Nome:input2,
-                            Quantidade: parseFloat(input3),
-                            Preço: parseFloat(input4)
-                        })
+                            Nome,
+                            Quantidade,
+                            Preco
+                        });
 console.log("Cadastrado com sucesso!")
         rl.question("Deseja Cadastrar um novo produto? (s/n)", (input5)=>{
             if (input5.toLowerCase() === 's'){ CadastrarProduto()} else {MenuPrincipal()}})
             })
         })
     })
-})
 }
 
 function Remover(){
@@ -144,6 +139,7 @@ function Remover(){
                 const [removido] = estoque.splice(index);
                 rl.question('', MenuPrincipal);
                 console.log('Produto removido com sucesso!!');
+                MenuPrincipal();
             }
         });
     }
