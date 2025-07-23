@@ -16,7 +16,7 @@ function MenuPrincipal(){
     5. Verificar Estoque Minimo
     6. Valor Total do Estoque
     7. Buscar Produto
-    8. Adicionar Categoria e Filtrar Por Ela
+    8. Filtrar Categoria
     9. Sair
 `)
 
@@ -42,8 +42,10 @@ switch (menu){
         ValorTotalEstoque()
         break
     case 7:
-        process.exit()
+        BuscarProduto()
         break
+    case 8:
+        Filtrar()
     default:
         console.log("Digite um número Valido...")
         MenuPrincipal()
@@ -56,21 +58,24 @@ switch (menu){
 function CadastrarProduto(){
 console.log('==== Cadastrar Produto ====\n')
 
-rl.question('\nDigite o nome do produto:\n', (Nome) => {
-        rl.question('\nDigite a quantidade:\n', (Quantidade) => {
-            if(isNaN(Quantidade) || Quantidade < 0){console.log('Digite um numero...') 
-                CadastrarProduto()}
-                    rl.question('\nDigite o Preço:\n', (Preco) =>{
-                        if(isNaN(Preco) || Preco < 0){console.log('Digite um numero...') 
-                            CadastrarProduto()}
-                        estoque.push({
-                            Nome,
-                            Quantidade,
-                            Preco
+rl.question('\nNome da Categoria:\n', (Categoria) => {
+    rl.question('\nDigite o nome do produto:\n', (Nome) => {
+            rl.question('\nDigite a quantidade:\n', (Quantidade) => {
+                if(isNaN(Quantidade) || Quantidade < 0){console.log('Digite um numero...') 
+                    CadastrarProduto()}
+                        rl.question('\nDigite o Preço:\n', (Preco) =>{
+                            if(isNaN(Preco) || Preco < 0){console.log('Digite um numero...') 
+                                CadastrarProduto()}
+                            estoque.push({
+                                Categoria,
+                                Nome,
+                                Quantidade,
+                                Preco
                         });
 console.log("Cadastrado com sucesso!")
         rl.question("Deseja Cadastrar um novo produto? (s/n)", (input5)=>{
-            if (input5.toLowerCase() === 's'){ CadastrarProduto()} else {MenuPrincipal()}})
+            if (input5.toLowerCase() === 's' || input5.toLowerCase() === "sim"){ CadastrarProduto()} else {MenuPrincipal()}})
+                })
             })
         })
     })
@@ -79,50 +84,50 @@ console.log("Cadastrado com sucesso!")
 function ListarProduto() {
     if(estoque.length === 0){
         console.log('nenhum item cadastrado! \nprecione enter para voltar')
-        return rl.question('', MenuPrincipal)
+         return rl.question('', MenuPrincipal)
     }else{
         console.log('estoque: ')
-        estoque.forEach((produto, index) => {
-            console.log(`${index + 1}. \nNome: ${estoque[index].Nome} \nQuantidade: ${estoque[index].Quantidade} \nPreço: ${estoque[index].Preco}\n`)
+            estoque.forEach((produto, index) => {
+                console.log(`${index + 1}. \nNome: ${estoque[index].Nome} \nQuantidade: ${estoque[index].Quantidade} \nPreço: ${estoque[index].Preco}\n`)
         })
     }
     console.log('precione enter para voltar')
-    return rl.question('', MenuPrincipal)
+        return rl.question('', MenuPrincipal)
 }
 
 function AtualizarEstoque(){
     if(estoque.length === 0){
         console.log('nenhum item cadastrado! \nPrecione enter para voltar')
-        rl.question('', MenuPrincipal)
+            rl.question('', MenuPrincipal)
     }
 
     console.log('estoque: ')
-    estoque.forEach((produto, index) => {
-        console.log(`${index + 1}. \nNome: ${estoque[index].Nome} \nQuantidade: ${estoque[index].Quantidade} \nPreço: ${estoque[index].Preco}\n`)
+        estoque.forEach((produto, index) => {
+            console.log(`${index + 1}. \nNome: ${estoque[index].Nome} \nQuantidade: ${estoque[index].Quantidade} \nPreço: ${estoque[index].Preco}\n`)
     })
 
     rl.question('digite o número do estoque que você quer editar: ', (input) => {
         let i = parseInt(input, 10) - 1
-        if(i >= 0 && i < estoque.length){
-            rl.question('digite a nova quantidade: ', (quantidade) => {
-                if(quantidade < 0 || isNaN(quantidade)){
-                    console.log('valor inválido!')
-                    return AtualizarEstoque()
-                }
+            if(i >= 0 && i < estoque.length){
+                rl.question('digite a nova quantidade: ', (quantidade) => {
+                    if(quantidade < 0 || isNaN(quantidade)){
+                        console.log('valor inválido!')
+                            return AtualizarEstoque()
+                    }
 
-                estoque[i].Quantidade = parseInt(quantidade);
+    estoque[i].Quantidade = parseInt(quantidade);
                        
-                console.log('Estoque editado com sucesso! \nDeseja editar outro? (s/n)')
-                rl.question('', (resposta) =>{
-                    resposta.toLowerCase() === 's'
+        console.log('Estoque editado com sucesso! \nDeseja editar outro? (s/n)')
+            rl.question('', (resposta) =>{
+                resposta.toLowerCase() === 's'
                     ? AtualizarEstoque()
-                    : MenuPrincipal()
-                })
+                        : MenuPrincipal()
             })
-        }else{
-            console.log('posição inválida!\n')
+        })
+}else{
+        console.log('posição inválida!\n')
             console.log('precione enter para voltar')
-            rl.question('', MenuPrincipal)
+                rl.question('', MenuPrincipal)
         }
     })  
 }
@@ -131,21 +136,21 @@ function AtualizarEstoque(){
 function Remover(){
     if(estoque.length == 0){
         console.log('Estoque vazio!');
-        MenuPrincipal();
+            MenuPrincipal();
     } else {
         console.log('============ PRODUTOS LISTADOS ============');
-        estoque.forEach((produto, index) => {
-            console.log(`${index + 1} - Nome: ${estoque[index].Nome}, Quantidade: ${estoque[index].Quantidade}, Preço: ${estoque[index].Preco}`);
+            estoque.forEach((produto, index) => {
+                console.log(`${index + 1} - Nome: ${estoque[index].Nome}, Quantidade: ${estoque[index].Quantidade}, Preço: ${estoque[index].Preco}`);
         });
         rl.question('Escolha o número do produto que deseja remover: ', (input) => {
-            const index = parseInt(input) - 1;
-            if(isNaN(index) || index < 0 || index > estoque.length){
-                console.log('Entrada inválida!! Volte ao menu!');
+                const index = parseInt(input) - 1;
+                    if(isNaN(index) || index < 0 || index > estoque.length){
+                        console.log('Entrada inválida!! Volte ao menu!');
                 MenuPrincipal();
-            } else {
-                const [removido] = estoque.splice(index, 1);
-                rl.question('', MenuPrincipal);
-                console.log('Produto removido com sucesso!!');
+                } else {
+                    const [removido] = estoque.splice(index, 1);
+                        rl.question('', MenuPrincipal);
+                            console.log('Produto removido com sucesso!!');
                 MenuPrincipal();
             }
         });
@@ -190,4 +195,39 @@ function ValorTotalEstoque(){
             rl.question('', MenuPrincipal)
         }
     })  
+}
+
+function Filtrar() {
+    if (estoque.length === 0) {
+        console.log('Nenhum item cadastrado!\nPressione ENTER para voltar');
+        return rl.question('', MenuPrincipal);
+    }
+
+    const categorias = [...new Set(estoque.map(produto => produto.Categoria))];
+
+    console.log('Categorias disponíveis:');
+    categorias.forEach((categoria, index) => {
+        console.log(`${index + 1}. ${categoria}`);
+    });
+
+    rl.question('\nDigite o número da categoria que deseja ver os produtos: ', (resposta) => {
+        const indice = parseInt(resposta) - 1;
+
+        if (isNaN(indice) || indice < 0 || indice >= categorias.length) {
+            console.log('\nCategoria inválida! Tente novamente.\n');
+            return Filtrar();
+        }
+
+        const categoriaEscolhida = categorias[indice];
+
+        const produtosDaCategoria = estoque.filter(produto => produto.Categoria === categoriaEscolhida);
+
+        console.log(`\nProdutos da categoria "${categoriaEscolhida}":`);
+        produtosDaCategoria.forEach((produto, index) => {
+            console.log(`${index + 1}. Nome: ${produto.Nome}, Quantidade: ${produto.Quantidade}, Preço: ${produto.Preco}`);
+        });
+
+        console.log('\nPressione ENTER para voltar ao menu...');
+        rl.question('', MenuPrincipal);
+    });
 }
