@@ -2,7 +2,7 @@ const readline = require('readline')
 const rl = readline.createInterface({
     input: process.stdin, output: process.stdout})
 
-let estoque = []
+let produto = []
 
 MenuPrincipal()
 
@@ -42,6 +42,25 @@ switch (menu){
         console.log("Digite um numero Valido...")
         MenuPrincipal()
         break
+        }
+    })
 }
-})
+
+function CadastrarProduto(){
+console.log('==== Cadastrar Produto ====\n')
+
+rl.question('\nDigite o nome do produto:\n', (input2) => {
+        rl.question('\nDigite a quantidade:\n', (input3) => {
+                    rl.question('\nDigite o Preço:\n', (input4) => {
+                        produto.push({
+                            Nome:input2,
+                            Quantidade: parseFloat(input3),
+                            Preço: parseFloat(input4)
+                        })
+console.log("Cadastrado com sucesso!")
+        rl.question("Deseja Cadastrar um novo produto? (s/n)", (input5)=>{
+            if (input5.toLowerCase() === 's'){ CadastrarProduto()} else {MenuPrincipal()}})
+            })
+        })
+    })
 }
