@@ -44,7 +44,30 @@ switch (menu){
         break
         }
     })
+    
+}
 
+function CadastrarProduto(){
+console.log('==== Cadastrar Produto ====\n')
+
+rl.question('\nDigite o nome do produto:\n', (Nome) => {
+        rl.question('\nDigite a quantidade:\n', (Quantidade) => {
+            if(isNaN(Quantidade) || Quantidade < 0){console.log('Digite um numero...') 
+                CadastrarProduto()}
+                    rl.question('\nDigite o Preço:\n', (Preco) =>{
+                        if(isNaN(Preco) || Preco < 0){console.log('Digite um numero...') 
+                            CadastrarProduto()}
+                        estoque.push({
+                            Nome,
+                            Quantidade,
+                            Preco
+                        });
+console.log("Cadastrado com sucesso!")
+        rl.question("Deseja Cadastrar um novo produto? (s/n)", (input5)=>{
+            if (input5.toLowerCase() === 's'){ CadastrarProduto()} else {MenuPrincipal()}})
+            })
+        })
+    })
 }
 
 function ListarProduto() {
@@ -98,28 +121,6 @@ function AtualizarEstoque(){
     })  
 }
 
-function CadastrarProduto(){
-console.log('==== Cadastrar Produto ====\n')
-
-rl.question('\nDigite o nome do produto:\n', (Nome) => {
-        rl.question('\nDigite a quantidade:\n', (Quantidade) => {
-            if(isNaN(Quantidade) || Quantidade < 0){console.log('Digite um numero...') 
-                CadastrarProduto()}
-                    rl.question('\nDigite o Preço:\n', (Preco) =>{
-                        if(isNaN(Preco) || Preco < 0){console.log('Digite um numero...') 
-                            CadastrarProduto()}
-                        estoque.push({
-                            Nome,
-                            Quantidade,
-                            Preco
-                        });
-console.log("Cadastrado com sucesso!")
-        rl.question("Deseja Cadastrar um novo produto? (s/n)", (input5)=>{
-            if (input5.toLowerCase() === 's'){ CadastrarProduto()} else {MenuPrincipal()}})
-            })
-        })
-    })
-}
 
 function Remover(){
     if(estoque.length == 0){
@@ -127,16 +128,16 @@ function Remover(){
         MenuPrincipal();
     } else {
         console.log('============ PRODUTOS LISTADOS ============');
-        for(let i = 0; i<estoque.length; i++){
-            console.log(`${i + 1} - Nome: ${estoque[i].Nome}, Quantidade: ${estoque[i].Quantidade}, Preço: ${estoque[i].Preco}`);
-        };
+        estoque.forEach((produto, index) => {
+            console.log(`${index + 1} - Nome: ${estoque[index].Nome}, Quantidade: ${estoque[index].Quantidade}, Preço: ${estoque[index].Preco}`);
+        });
         rl.question('Escolha o número do produto que deseja remover: ', (input) => {
             const index = parseInt(input) - 1;
             if(isNaN(index) || index < 0 || index > estoque.length){
                 console.log('Entrada inválida!! Volte ao menu!');
                 MenuPrincipal();
             } else {
-                const [removido] = estoque.splice(index);
+                const [removido] = estoque.splice(index, 1);
                 rl.question('', MenuPrincipal);
                 console.log('Produto removido com sucesso!!');
                 MenuPrincipal();
