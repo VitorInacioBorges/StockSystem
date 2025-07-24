@@ -42,10 +42,11 @@ switch (menu){
         ValorTotalEstoque()
         break
     case 7:
-        BuscarProduto()
+        BuscarProduto() // Não deu tempo de finalizar
         break
     case 8:
         Filtrar()
+        break
     default:
         console.log("Digite um número Valido...")
         MenuPrincipal()
@@ -87,8 +88,8 @@ function ListarProduto() {
          return rl.question('', MenuPrincipal)
     }else{
         console.log('estoque: ')
-            estoque.forEach((produto, index) => {
-                console.log(`${index + 1}. \nNome: ${estoque[index].Nome} \nQuantidade: ${estoque[index].Quantidade} \nPreço: ${estoque[index].Preco}\n`)
+        estoque.forEach((produto, index) => {
+            console.log(`${index + 1} - Nome: ${estoque[index].Nome}, Quantidade: ${estoque[index].Quantidade}, Preço: ${estoque[index].Preco}`);
         })
     }
     console.log('precione enter para voltar')
@@ -179,7 +180,7 @@ function ValorTotalEstoque(){
 
     console.log('estoque: ')
     estoque.forEach((produto, index) => {
-        console.log(`${index + 1}. \nNome: ${estoque[index].Nome} \nQuantidade: ${estoque[index].Quantidade} \nPreço: ${estoque[index].Preco}\n`)
+        console.log(`${index + 1} - Nome: ${estoque[index].Nome}, Quantidade: ${estoque[index].Quantidade}, Preço: ${estoque[index].Preco}`);
     })
 
     rl.question('digite o número do estoque que você quer ver o valor total: ', (input) => {
@@ -219,7 +220,6 @@ function Filtrar() {
         }
 
         const categoriaEscolhida = categorias[indice];
-
         const produtosDaCategoria = estoque.filter(produto => produto.Categoria === categoriaEscolhida);
 
         console.log(`\nProdutos da categoria "${categoriaEscolhida}":`);
@@ -227,7 +227,8 @@ function Filtrar() {
             console.log(`${index + 1}. Nome: ${produto.Nome}, Quantidade: ${produto.Quantidade}, Preço: ${produto.Preco}`);
         });
 
-        console.log('\nPressione ENTER para voltar ao menu...');
-        rl.question('', MenuPrincipal);
+        rl.question('\nPressione ENTER para voltar ao menu...', () => {
+            MenuPrincipal();
+        });
     });
 }
